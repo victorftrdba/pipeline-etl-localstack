@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: data-pipeline-job
+  namespace: data-science-env
+spec:
+  template:
+    spec:
+      containers:
+      - name: processor
+        image: data-pipeline-local:v1
+        env:
+        - name: AWS_ENDPOINT_URL
+          value: "http://host.docker.internal:4566"
+        - name: AWS_ACCESS_KEY_ID
+          value: "test"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "test"
+        - name: AWS_DEFAULT_REGION
+          value: "us-east-1"
+      restartPolicy: Never
+  backoffLimit: 4
